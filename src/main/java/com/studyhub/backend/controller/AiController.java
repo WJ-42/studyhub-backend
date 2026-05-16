@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequestMapping("/api/ai")
 public class AiController {
 
-    private static final int DAILY_LIMIT = 20;
+    private static final int DAILY_LIMIT = 1;
 
     private final AnthropicService anthropicService;
 

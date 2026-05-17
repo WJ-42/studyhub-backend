@@ -4,6 +4,7 @@ import com.studyhub.backend.dto.AuthResponse;
 import com.studyhub.backend.dto.LoginRequest;
 import com.studyhub.backend.dto.RegisterRequest;
 import com.studyhub.backend.entity.User;
+import com.studyhub.backend.exception.EmailAlreadyInUseException;
 import com.studyhub.backend.repository.UserRepository;
 import com.studyhub.backend.security.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,7 +33,7 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already in use");
+            throw new EmailAlreadyInUseException(request.getEmail());
         }
 
         User user = new User();

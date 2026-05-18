@@ -2,6 +2,7 @@ package com.studyhub.backend.controller;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.pdfbox.Loader;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.http.HttpStatus;
@@ -108,7 +109,7 @@ public class ExtractController {
     }
 
     private String extractPdf(MultipartFile file) throws IOException {
-        try (PDDocument doc = PDDocument.load(file.getInputStream())) {
+        try (PDDocument doc = Loader.loadPDF(file.getBytes())) {
             PDFTextStripper stripper = new PDFTextStripper();
             return stripper.getText(doc);
         }

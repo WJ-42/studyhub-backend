@@ -45,6 +45,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
+        // Admin tokens are not backed by a database user, so skip the
+        // UserDetailsService lookup entirely. Admin endpoints validate
+        // the ADMIN role claim themselves in AdminController.
+        if (jwtUtil.isAdminToken(token)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         final String email = jwtUtil.extractEmail(token);
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {

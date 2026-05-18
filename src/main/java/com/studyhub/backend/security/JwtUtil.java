@@ -33,6 +33,27 @@ public class JwtUtil {
                 .compact();
     }
 
+    // Admin tokens carry a role=ADMIN claim so they can be distinguished
+    // from regular user tokens without hitting the database.
+    public String generateAdminToken(String username) {
+        return Jwts.builder()
+                .subject(username)
+                .claim("role", "ADMIN")
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(secretKey)
+                .compact();
+    }
+
+    public boolean isAdminToken(String token) {
+        try {
+            Claims claims = extractClaims(token);
+            return "ADMIN".equals(claims.get("role", String.class));
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public String extractEmail(String token) {
         return extractClaims(token).getSubject();
     }

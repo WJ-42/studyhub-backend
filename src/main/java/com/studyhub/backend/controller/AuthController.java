@@ -56,6 +56,6 @@ public class AuthController {
 
     @GetMapping("/health")
     public ResponseEntity<String> health() {
-        return ResponseEntity.ok("StudyHub API is running");
+        return ResponseEntity.ok("Workroom API is running");
     }
 }

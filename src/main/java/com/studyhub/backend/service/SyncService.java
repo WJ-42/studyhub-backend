@@ -57,6 +57,26 @@ public class SyncService {
         }
     }
 
+    // Deleting something that is already gone is fine, so a retried delete
+    // from the client never fails.
+    @Transactional
+    public void deleteDeck(String email, String clientId) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        deckRepository.findByClientIdAndUserId(clientId, user.getId())
+                .ifPresent(deckRepository::delete);
+    }
+
+    @Transactional
+    public void deleteCard(String email, String clientId) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        cardRepository.findByClientIdAndOwnerId(clientId, user.getId())
+                .ifPresent(cardRepository::delete);
+    }
+
     private void syncDeck(DeckDto deckDto, User user) {
         Optional<Deck> existing = deckRepository
                 .findByClientIdAndUserId(deckDto.getClientId(), user.getId());

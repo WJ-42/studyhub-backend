@@ -29,6 +29,22 @@ public class SyncController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/decks/{clientId}")
+    public ResponseEntity<Void> deleteDeck(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable String clientId) {
+        syncService.deleteDeck(userDetails.getUsername(), clientId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/cards/{clientId}")
+    public ResponseEntity<Void> deleteCard(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable String clientId) {
+        syncService.deleteCard(userDetails.getUsername(), clientId);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/decks")
     public ResponseEntity<List<DeckDto>> getDecks(
             @AuthenticationPrincipal UserDetails userDetails) {

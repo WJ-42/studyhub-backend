@@ -59,7 +59,7 @@ public class SecurityConfig {
             "http://localhost:5173",
             "http://localhost:4173",
             "https://study-hub-aston-hack11.vercel.app",
-            "https://workroom.vercel.app"
+            "https://workroom-astonhack11.vercel.app"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
